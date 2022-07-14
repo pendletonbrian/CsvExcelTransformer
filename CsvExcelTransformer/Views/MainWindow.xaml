@@ -1,0 +1,89 @@
+﻿<Window x:Class="CsvExcelTransformer.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:classes="clr-namespace:CsvExcelTransformer.Classes"
+        xmlns:viewmodels="clr-namespace:CsvExcelTransformer.ViewModels"
+        xmlns:pageTransitions="clr-namespace:WpfPageTransitions;assembly=WpfPageTransitions"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ThreeDBorderWindow"
+        ResizeMode="NoResize"
+        AllowDrop="True"
+        Height="700"
+        Width="800"
+        FontSize="14"
+        Title="{Binding TitleText}">
+    <Window.Resources>
+        <classes:BooleanVisibilityConverter x:Key="VisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+
+            <!-- Menu -->
+            <RowDefinition Height="Auto" />
+
+            <!-- Main area -->
+            <RowDefinition Height="*" />
+
+            <!-- Status bar -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <!-- Menu -->
+        <Menu Grid.Column="0"
+              Grid.Row="0">
+            <MenuItem Header="File" Margin="4" />
+        </Menu>
+        
+        <!-- Main area -->
+        <pageTransitions:PageTransition x:Name="pageTransitionControl"
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        Margin="4"
+                                        TransitionType="SlideAndFade"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch" />
+
+        <!-- Status bar -->
+        <Border Grid.Column="0"
+                Grid.Row="2"
+                Margin="2,1,2,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="150" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Status label -->
+                <TextBlock Grid.Column="0"
+                           Grid.Row="0"
+                           Padding="2"
+                           MinHeight="20"
+                           Text="{Binding StatusText}" />
+
+                <!-- Progress bar -->
+                <ProgressBar Grid.Column="1"
+                             Grid.Row="0"
+                             Minimum="0"
+                             Maximum="100"
+                             Margin="2"
+                             IsIndeterminate="{Binding ShowProgressBar}"
+                             Visibility="{Binding ShowProgressBar, Converter={StaticResource VisibilityConverter}}" />
+            </Grid>
+        </Border>
+        
+    </Grid>
+</Window>
